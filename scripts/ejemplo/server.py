@@ -2,7 +2,7 @@
 
 import sys
 
-sys.path.append('/home/martin/Documentos/redes/redes-tp3/src/ptc/')
+sys.path.append('../../src/')
 from ptc import Socket
 
 to_send = 'Lorem ipsum dolor sit amet'

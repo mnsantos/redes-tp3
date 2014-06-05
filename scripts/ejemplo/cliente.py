@@ -1,5 +1,8 @@
 # Script que abre un socket y lo conecta al puerto 6677 de localhost.
 
+import sys
+
+sys.path.append('../../src/')
 from ptc import Socket, SHUT_WR
 
 to_send = 'foo bar baz'
