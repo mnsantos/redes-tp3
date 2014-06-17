@@ -8,7 +8,7 @@ from ptc import Socket
 to_send = 'Lorem ipsum dolor sit amet'
 received = str()
 with Socket() as sock1:
-	sock1.bind(('127.0.0.1', 6677))
+	sock1.bind(('192.168.1.151', 6677))
 	sock1.listen()
 	sock1.accept()
 	received += sock1.recv(15)
