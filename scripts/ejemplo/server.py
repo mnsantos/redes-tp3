@@ -1,6 +1,7 @@
 # Script que liga un socket al puerto 6677 de localhost.
 
 import sys
+from constantes import *
 
 sys.path.append('../../src/')
 from ptc import Socket
@@ -54,9 +55,8 @@ with Socket() as sock1:
     sock1.listen()
     sock1.accept()
     
-    for i in range(0,5):
-        data = sock1.recv(1024)
-        name = sys.getsizeof(data)
-        file = open("../files/_"+str(name), "w")
+    for i in range(0,FILES_TO_SEND):
+        data = sock1.recv(BUFFER_SIZE)
+        file = open("../files/_"+str(i), "w")
         file.write(data)
     sock1.close()

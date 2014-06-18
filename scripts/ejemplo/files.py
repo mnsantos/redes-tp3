@@ -9,7 +9,7 @@ def create_file(name,size):
 	file.write(string)
 
 def create_files():
-	sizes=[1]#,5,10,50,100,200,500]
+	sizes=[1,5,10,50,100,200,500,2048]
 	for i in sizes:
 		create_file(i,i)
 
@@ -21,4 +21,7 @@ def files_to_strings(path):
 	    f=open(file, 'r')  
 	    list.append(f.read())
 	    f.close()
-	return list 
+	return list
+
+if __name__ == "__main__":
+	create_files()

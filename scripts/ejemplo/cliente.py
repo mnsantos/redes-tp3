@@ -3,6 +3,7 @@
 import sys
 import socket
 import files
+from constantes import *
 
 sys.path.append('../../src/')
 from ptc import Socket, SHUT_WR
@@ -10,7 +11,6 @@ from ptc import protocol
 
 received = str()
 
-files.create_files()
 l = files.files_to_strings("../files/")
 
 if len(sys.argv) >= 3:
@@ -20,8 +20,8 @@ if len(sys.argv) >= 4:
 
 with Socket() as sock2: 
     sock2.connect((sys.argv[1], 6677))
-    sock2.send(l[0])
-
+    for i in l:
+        sock2.send(i)
     # Cerramos el stream de escritura pero podemos seguir recibiendo datos.
     sock2.shutdown(SHUT_WR)
 print 'sock2 received: %s' % received
