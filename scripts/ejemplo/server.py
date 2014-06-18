@@ -40,21 +40,23 @@ def get_lan_ip():
                 pass
     return ip
 
-to_send = 'a'*3000
+to_send = 'a'*10
 print sys.getsizeof(to_send)
-received = str()
 
 if len(sys.argv) >= 2:
     protocol.ACK_delay = float(sys.argv[1])
 if len(sys.argv) >= 3:
     protocol.ACK_chance = float(sys.argv[2])
 
-with Socket() as sock1:    
-	print get_lan_ip()
-	sock1.bind((get_lan_ip(), 6677))
-	sock1.listen()
-	sock1.accept()
-	received += sock1.recv(1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000)
-	sock1.send(to_send)
-	sock1.close()
-print 'sock1 received: %s' % received
+with Socket() as sock1:
+    print get_lan_ip()
+    sock1.bind((get_lan_ip(), 6677))
+    sock1.listen()
+    sock1.accept()
+    
+    for i in range(0,5):
+        data = sock1.recv(1024)
+        name = sys.getsizeof(data)
+        file = open("../files/_"+str(name), "w")
+        file.write(data)
+    sock1.close()

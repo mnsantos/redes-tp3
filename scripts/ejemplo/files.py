@@ -2,10 +2,14 @@ import os
 import glob   
 
 def create_file(name,size):
-	os.system("dd if=/dev/urandom of=../files/"+str(name)+".log bs="+str(size)+"KB count=1")
+	#os.system("dd if=/dev/zero of=../files/"+str(name)+".log bs="+str(size)+"KB count=1")
+	choices = "abcdefghijklmopqrstuvwxyz07123456789"
+	string = choices*size*1024
+	file = open("../files/"+str(name), 'w')
+	file.write(string)
 
 def create_files():
-	sizes=[1,5,10,50,100,200,500]
+	sizes=[1]#,5,10,50,100,200,500]
 	for i in sizes:
 		create_file(i,i)
 
