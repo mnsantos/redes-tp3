@@ -2,13 +2,17 @@
 
 import sys
 import socket
+import files
 
 sys.path.append('../../src/')
 from ptc import Socket, SHUT_WR
 from ptc import protocol
 
-to_send = 'foo bar baz'
 received = str()
+
+#files.create_files()
+l = files.files_to_strings("../files/")
+
 
 if len(sys.argv) >= 3:
 	protocol.ACK_delay = float(sys.argv[2])
@@ -17,8 +21,11 @@ if len(sys.argv) >= 4:
 
 with Socket() as sock2:	
 	sock2.connect((sys.argv[1], 6677))
-	for i in range(0,100):
-		sock2.send(to_send)
+	j = 0
+	for i in l:
+		print j
+		j = j+1
+		sock2.send(i)
 	received += sock2.recv(4000)
 	# Cerramos el stream de escritura pero podemos seguir recibiendo datos.
 	sock2.shutdown(SHUT_WR)

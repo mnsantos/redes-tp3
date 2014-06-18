@@ -54,7 +54,7 @@ with Socket() as sock1:
 	sock1.bind((get_lan_ip(), 6677))
 	sock1.listen()
 	sock1.accept()
-	received += sock1.recv(6000)
+	received += sock1.recv(1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000)
 	sock1.send(to_send)
 	sock1.close()
 print 'sock1 received: %s' % received
