@@ -114,7 +114,7 @@ class PTCProtocol(object):
         self.rqueue.put(packet)
         
         def sendPacket():       
-            print "sent delayed packet"     
+            #print "sent delayed packet"     
             self.socket.send(packet)        
                 
         if ACKFlag in packet:
@@ -122,10 +122,12 @@ class PTCProtocol(object):
             if rand < ACK_chance:
                 if ACK_delay > 0:            
                     #print "creo timer " + str(ACK_delay)
-                    print "-----------ACK-------------"
-                    print "Destination port: " + packet.network_packet.destination_ip
-                    print "Ack Number: " + packet.network_packet.get_ack_number()
-                    print "---------------------------"
+                    #print "-----------ACK-------------"
+                    #print "Destination port: " + packet.get_destination_ip()
+                    #print "Ack Number: " + str(packet.get_ack_number())
+                    #print "Payload: " + str(packet.get_payload())
+                    #print "Intervalo de Seq: ("+str(packet.get_seq_interval()[0])+", "+str(packet.get_seq_interval()[1])+")"
+                    #print "---------------------------"
                     t = threading.Timer(ACK_delay, sendPacket)
                     t.start()
                 else:
