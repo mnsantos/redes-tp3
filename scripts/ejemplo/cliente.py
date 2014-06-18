@@ -3,7 +3,8 @@
 import sys
 import socket
 import files
-from constantes import *
+import tp_protocol
+#from constantes import *
 
 sys.path.append('../../src/')
 from ptc import Socket, SHUT_WR
@@ -20,8 +21,20 @@ if len(sys.argv) >= 4:
 
 with Socket() as sock2: 
     sock2.connect((sys.argv[1], 6677))
-    for i in l:
-        sock2.send(i)
+    sock2.send(tp_protocol.SEND)
+    data = sock2.recv(10)
+    print "recibi algo: " + data
+    msg = "hola mundo!"
+    if data == tp_protocol.OK:
+    	print "mando longitud de mensaje: " + str(len(msg))
+    	sock2.send(str(len(msg)))
+    	data = sock2.recv(10)
+    	print "recibi algo: " + data
+    	if data == tp_protocol.OK:
+			print "mando mensaje: " + str(len(msg))
+    		sock2.send(msg)
+    #for i in l:
+    #    sock2.send(i)
     # Cerramos el stream de escritura pero podemos seguir recibiendo datos.
     sock2.shutdown(SHUT_WR)
 print 'sock2 received: %s' % received
