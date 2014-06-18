@@ -29,6 +29,9 @@ from soquete import Soquete
 from thread import Clock, PacketSender, PacketReceiver
 
 
+ACK_delay = 0
+ACK_chance = 0.5
+
 class PTCProtocol(object):
     
     def __init__(self):
@@ -93,7 +96,7 @@ class PTCProtocol(object):
         return self.state in connected_states
         
     def build_packet(self, seq=None, ack=None, payload=None, flags=None,
-                     window=None):
+                     window=None):        
         if seq is None:
             seq = self.control_block.get_snd_nxt()
         if flags is None:
@@ -102,13 +105,31 @@ class PTCProtocol(object):
             ack = self.control_block.get_rcv_nxt()
         if window is None:
             window = self.control_block.get_rcv_wnd()
+        
         packet = self.packet_builder.build(payload=payload, flags=flags,
                                            seq=seq, ack=ack, window=window)
         return packet
         
-    def send_and_queue(self, packet):
+    def send_and_queue(self, packet):        
         self.rqueue.put(packet)
-        self.socket.send(packet)
+        
+        def sendPacket():       
+            print "sent delayed packet"     
+            self.socket.send(packet)        
+                
+        if ACKFlag in packet:
+            rand = random.random();                    
+            if rand < ACK_chance:
+                if ACK_delay > 0:            
+                    print "creo timer " + str(ACK_delay)
+                    t = threading.Timer(ACK_delay, sendPacket)
+                    t.start()
+                else:
+                    sendPacket()
+            else:
+                print "drop packet"
+        else:            
+            self.socket.send(packet)        
         
     def set_destination_on_packet_builder(self, address, port):
         self.packet_builder.set_destination_address(address)
@@ -126,7 +147,7 @@ class PTCProtocol(object):
         self.connected_event = threading.Event()
         self.set_destination_on_packet_builder(address, port)
         self.start_threads()
-        
+                
         syn_packet = self.build_packet(seq=self.iss, flags=[SYNFlag],
                                        window=self.rcv_wnd)
         self.set_state(SYN_SENT)
@@ -152,7 +173,7 @@ class PTCProtocol(object):
     def receive(self, size):
         data = self.control_block.from_in_buffer(size)
         updated_rcv_wnd = self.control_block.get_rcv_wnd()
-        if updated_rcv_wnd > 0:
+        if updated_rcv_wnd > 0:            
             wnd_packet = self.build_packet(window=updated_rcv_wnd)
             self.socket.send(wnd_packet)
         return data
@@ -224,13 +245,13 @@ class PTCProtocol(object):
                 # de que la ventana está cerrada. Luego, no tenemos nada más
                 # por hacer hasta que lleguen los próximos ACKs.
                 window_closed = True
-            else:
+            else:                
                 packet = self.build_packet(payload=to_send, seq=seq_number)
                 self.send_and_queue(packet)
                 
     def attempt_to_send_FIN(self):
         state_allows_closing = self.state in [ESTABLISHED, CLOSE_WAIT]
-        if state_allows_closing and self.rqueue.empty():
+        if state_allows_closing and self.rqueue.empty():            
             fin_packet = self.build_packet(flags=[ACKFlag, FINFlag])
             # Estamos enviando un FIN, y este flag se secuencia. Incrementar el
             # siguiente byte a enviar.

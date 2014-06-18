@@ -4,6 +4,7 @@ import sys
 
 sys.path.append('../../src/')
 from ptc import Socket
+from ptc import protocol
 
 import os
 import socket
@@ -41,7 +42,13 @@ def get_lan_ip():
 
 to_send = 'Lorem ipsum dolor sit amet'
 received = str()
-with Socket() as sock1:
+
+if len(sys.argv) >= 2:
+    protocol.ACK_delay = float(sys.argv[1])
+if len(sys.argv) >= 3:
+    protocol.ACK_chance = float(sys.argv[2])
+
+with Socket() as sock1:    
 	print get_lan_ip()
 	sock1.bind((get_lan_ip(), 6677))
 	sock1.listen()
