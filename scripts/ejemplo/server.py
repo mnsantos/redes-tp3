@@ -7,6 +7,7 @@ import tp_protocol
 sys.path.append('../../src/')
 from ptc import Socket
 from ptc import protocol
+from ptc import constants
 
 import os
 import socket
@@ -62,12 +63,19 @@ with Socket() as sock1:
         if data == tp_protocol.SEND:
             print "mando ok: "
             sock1.send(tp_protocol.OK)
-            numBytes = sock1.recv(10)
-            print "recibi numBytes: " + numBytes
+            numBytes = int(sock1.recv(10))
+            print "recibi numBytes: " + str(numBytes)
             print "mando ok: "
             sock1.send(tp_protocol.OK)
-            data = sock1.recv(int(numBytes))
-            file = open("../files/_"+str(numBytes), "w")
+            BUFF_SIZE = constants.RECEIVE_BUFFER_SIZE
+            fullBuffsCount = numBytes/BUFF_SIZE
+            remainingBytes = numBytes % BUFF_SIZE
+            data = ""
+            for i in range(0, fullBuffsCount):
+                data += sock1.recv(BUFF_SIZE)
+            if remainingBytes > 0:
+                data += sock1.recv(remainingBytes) 
+            file = open("../received/_"+str(numBytes), "w")
             file.write(data)
         if data == tp_protocol.EXIT:
             break
