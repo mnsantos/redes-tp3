@@ -68,7 +68,7 @@ with Socket() as sock1:
             sock1.send(tp_protocol.OK)
             data = sock1.recv(int(numBytes))
             print "recibi mensaje: " + data
-
+            break
 
     
     #for i in range(0,FILES_TO_SEND):

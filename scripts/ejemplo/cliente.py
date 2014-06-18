@@ -31,8 +31,8 @@ with Socket() as sock2:
     	data = sock2.recv(10)
     	print "recibi algo: " + data
     	if data == tp_protocol.OK:
-			print "mando mensaje: " + str(len(msg))
-    		sock2.send(msg)
+			print "mando mensaje: " + msg
+			sock2.send(msg)
     #for i in l:
     #    sock2.send(i)
     # Cerramos el stream de escritura pero podemos seguir recibiendo datos.
