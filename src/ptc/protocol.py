@@ -121,7 +121,7 @@ class PTCProtocol(object):
             rand = random.random()
             if rand < ACK_chance:
                 if ACK_delay > 0:            
-                    #print "creo timer " + str(ACK_delay)
+                    print "creo timer " + str(ACK_delay)
                     print packet.network_packet.destination_ip
                     t = threading.Timer(ACK_delay, sendPacket)
                     t.start()
