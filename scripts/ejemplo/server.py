@@ -67,12 +67,14 @@ with Socket() as sock1:
             print "mando ok: "
             sock1.send(tp_protocol.OK)
             data = sock1.recv(int(numBytes))
-            print "recibi mensaje: " + data
+            file = open("../files/_"+str(numBytes), "w")
+            file.write(data)
+        if data == tp_protocol.EXIT:
             break
+    sock1.close()
 
     
     #for i in range(0,FILES_TO_SEND):
     #    data = sock1.recv(BUFFER_SIZE)
     #    file = open("../files/_"+str(i), "w")
-    #    file.write(data)
-    sock1.close()
+    #        sock1.close()

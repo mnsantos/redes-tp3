@@ -3,7 +3,7 @@ import glob
 
 def create_file(name,size):
 	#os.system("dd if=/dev/zero of=../files/"+str(name)+".log bs="+str(size)+"KB count=1")
-	choices = "abcdefghijklmopqrstuvwxyz07123456789"
+	choices = "9"
 	string = choices*size*1024
 	file = open("../files/"+str(name), 'w')
 	file.write(string)
