@@ -30,7 +30,7 @@ from thread import Clock, PacketSender, PacketReceiver
 
 
 ACK_delay = 0
-ACK_chance = 0.5
+ACK_chance = 1
 
 class PTCProtocol(object):
     
@@ -118,10 +118,11 @@ class PTCProtocol(object):
             self.socket.send(packet)        
                 
         if ACKFlag in packet:
-            rand = random.random();                    
+            rand = random.random()
             if rand < ACK_chance:
                 if ACK_delay > 0:            
-                    print "creo timer " + str(ACK_delay)
+                    #print "creo timer " + str(ACK_delay)
+                    print packet.network_packet.destination_ip
                     t = threading.Timer(ACK_delay, sendPacket)
                     t.start()
                 else:
