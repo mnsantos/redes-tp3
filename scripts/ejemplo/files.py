@@ -11,7 +11,7 @@ def create_file(name,size):
 			f.write(string)
 
 def create_files():
-	sizes=[1,5,10,50,100,200,500,2048]
+	sizes=[1,5,10,50,100,200,500,1024,2048,5120,7168,10240]
 	for i in sizes:
 		create_file(i,i)
 
