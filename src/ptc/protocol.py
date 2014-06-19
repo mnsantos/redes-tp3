@@ -31,6 +31,7 @@ from thread import Clock, PacketSender, PacketReceiver
 
 ACK_delay = 0
 ACK_chance = 1
+droppedPackets = 0
 
 class PTCProtocol(object):
     
@@ -134,6 +135,7 @@ class PTCProtocol(object):
                     sendPacket()
             else:
                 print "drop packet"
+                droppedPackets += 1
         else:            
             self.socket.send(packet)        
         
