@@ -6,11 +6,12 @@ import tp_protocol
 import time
 import threading
 import random
+import graficador
 #from constantes import *
 
 class Info:
-    def __init__(self,size):
-        self.size=size
+    def __init__(self):
+        self.size=0
         self.throughput=0
 
     def mostrar(self):
@@ -42,14 +43,15 @@ def change_delay():
 		timer = threading.Timer(0.01, change_delay)	
 		timer.start()
 timer = threading.Timer(0.01, change_delay)    
-timer.start()
+#timer.start()
 
 stopTimer = False
 
 with Socket() as sock2: 
     sock2.connect((sys.argv[1], 6677))
     for i in l:
-        h = Info(len(i)/1024)
+        h = Info()
+        h.size=len(i)/1024
         sock2.send(tp_protocol.SEND)
         data = sock2.recv(10)
         if data == tp_protocol.OK:
@@ -62,7 +64,6 @@ with Socket() as sock2:
                 if data == tp_protocol.END:
                     end = time.time()
                     h.throughput = (len(i)/(end-start))/1024
-                    print h.throughput
                     throughputs.append(h)
     sock2.send(tp_protocol.EXIT)
     sock2.shutdown(SHUT_WR)
@@ -70,3 +71,7 @@ stopTimer = True
 
 for i in throughputs:
     i.mostrar()
+
+sizes=[h.size for h in throughputs]
+ts=[h.throughput for h in throughputs]
+graficador.graficador(sizes,ts)

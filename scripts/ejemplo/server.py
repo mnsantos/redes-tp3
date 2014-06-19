@@ -63,7 +63,7 @@ def change_delay():
         timer = threading.Timer(0.01, change_delay) 
         timer.start()
 timer = threading.Timer(0.01, change_delay)    
-timer.start()
+#timer.start()
 
 with Socket() as sock1:
     print "Server running on: " + get_lan_ip()

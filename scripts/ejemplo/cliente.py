@@ -37,7 +37,7 @@ def change_delay():
 		timer = threading.Timer(0.01, change_delay)	
 		timer.start()
 timer = threading.Timer(0.01, change_delay)    
-timer.start()
+#timer.start()
 
 stopTimer = False
 
