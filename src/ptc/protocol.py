@@ -32,6 +32,7 @@ from thread import Clock, PacketSender, PacketReceiver
 ACK_delay = 0
 ACK_chance = 1
 droppedPackets = 0
+total_retransmissions = 0
 
 class PTCProtocol(object):
     
@@ -197,12 +198,15 @@ class PTCProtocol(object):
         to_retransmit = self.rqueue.get_packets_to_retransmit()
         for packet in to_retransmit:
             attempts = self.update_retransmission_attempts_for(packet)
+            print attempts
             if attempts > MAX_RETRANSMISSION_ATTEMPTS:
                 # Nos damos por vencidos. Se superó el máximo número de
                 # retransmisiones para este paquete.
+                print "Liberando todos los recursos"
                 self.free()
             else:
-                #print "retransmit"
+                global total_retransmissions
+                total_retransmissions +=1
                 self.send_and_queue(packet)
     
     def update_retransmission_attempts_for(self, packet):
