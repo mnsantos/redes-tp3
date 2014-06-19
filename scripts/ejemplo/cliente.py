@@ -4,6 +4,8 @@ import socket
 import files
 import tp_protocol
 import time
+import threading
+import random
 #from constantes import *
 
 class Info:
@@ -27,6 +29,17 @@ if len(sys.argv) >= 4:
 #protocol.droppedPackets = 0
 
 ts = []
+
+def change_delay():
+	protocol.ACK_delay = random.random() * 0.13 + 0.02	
+	global stopTimer
+	if not stopTimer:
+		timer = threading.Timer(0.01, change_delay)	
+		timer.start()
+timer = threading.Timer(0.01, change_delay)    
+timer.start()
+
+stopTimer = False
 
 with Socket() as sock2: 
     sock2.connect((sys.argv[1], 6677))
@@ -53,3 +66,4 @@ with Socket() as sock2:
 
     print h.troughput
     sock2.shutdown(SHUT_WR)
+stopTimer = True

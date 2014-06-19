@@ -11,6 +11,8 @@ from ptc import constants
 
 import os
 import socket
+import threading
+import random
 
 if os.name != "nt":
     import fcntl
@@ -52,6 +54,17 @@ if len(sys.argv) >= 3:
     protocol.ACK_chance = float(sys.argv[2])
 #protocol.droppedPackets = 0
 
+stopTimer = False
+
+def change_delay():
+    protocol.ACK_delay = random.random() * 0.13 + 0.02  
+    global stopTimer
+    if not stopTimer:
+        timer = threading.Timer(0.01, change_delay) 
+        timer.start()
+timer = threading.Timer(0.01, change_delay)    
+timer.start()
+
 with Socket() as sock1:
     print "Server running on: " + get_lan_ip()
     sock1.bind((get_lan_ip(), 6677))
@@ -83,7 +96,7 @@ with Socket() as sock1:
             break
     sock1.close()
 
-    
+stopTimer = True
     #for i in range(0,FILES_TO_SEND):
     #    data = sock1.recv(BUFFER_SIZE)
     #    file = open("../files/_"+str(i), "w")

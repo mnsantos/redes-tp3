@@ -120,7 +120,7 @@ class PTCProtocol(object):
                 
         if ACKFlag in packet:
             rand = random.random()
-            if rand < ACK_chance:
+            if rand < ACK_chance:                
                 if ACK_delay > 0:            
                     #print "creo timer " + str(ACK_delay)
                     #print "-----------ACK-------------"
@@ -136,6 +136,7 @@ class PTCProtocol(object):
             else:
                 global droppedPackets
                 droppedPackets += 1
+                print "drop " + str(droppedPackets)
         else:            
             self.socket.send(packet)        
         
