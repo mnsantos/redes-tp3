@@ -62,6 +62,7 @@ with Socket() as sock2:
                 if data == tp_protocol.END:
                     end = time.time()
                     h.throughput = (len(i)/(end-start))/1024
+                    print h.throughput
                     throughputs.append(h)
     sock2.send(tp_protocol.EXIT)
     sock2.shutdown(SHUT_WR)

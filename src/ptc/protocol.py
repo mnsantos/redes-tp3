@@ -120,8 +120,8 @@ class PTCProtocol(object):
                 
         if ACKFlag in packet:
             rand = random.random()
-            if rand < ACK_chance:                
-                if ACK_delay > 0:            
+            if rand < ACK_chance:
+                if ACK_delay > 0:
                     #print "creo timer " + str(ACK_delay)
                     #print "-----------ACK-------------"
                     #print "Destination port: " + packet.get_destination_ip()
@@ -202,6 +202,7 @@ class PTCProtocol(object):
                 # retransmisiones para este paquete.
                 self.free()
             else:
+                #print "retransmit"
                 self.send_and_queue(packet)
     
     def update_retransmission_attempts_for(self, packet):
