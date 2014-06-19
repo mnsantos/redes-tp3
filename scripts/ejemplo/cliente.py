@@ -8,7 +8,7 @@ import time
 
 class Info:
     def __init__(self):
-        self.troughput=0
+        self.throughput=0
         self.retransmissions=0
         self.drops=0
 
@@ -48,8 +48,8 @@ with Socket() as sock2:
                     end = time.time()
                     print "Start: "+str(start)
                     print "End: "+str(end)
-                    h.troughput = (len(i)/(end-start))/1024
+                    h.throughput = (len(i)/(end-start))/1024
     sock2.send(tp_protocol.EXIT)
 
-    print h.troughput
+    print h.throughput
     sock2.shutdown(SHUT_WR)

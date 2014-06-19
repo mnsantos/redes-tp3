@@ -134,6 +134,7 @@ class PTCProtocol(object):
                 else:
                     sendPacket()
             else:
+                print "drop packages"
                 global droppedPackets
                 droppedPackets += 1
         else:            
