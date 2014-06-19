@@ -87,6 +87,7 @@ with Socket() as sock1:
             data = ""
             for i in range(0, fullBuffsCount):
                 data += sock1.recv(BUFF_SIZE)
+                print "Paquete:"+data[len(data)-1]
             if remainingBytes > 0:
                 data += sock1.recv(remainingBytes)
             sock1.send(tp_protocol.END)
