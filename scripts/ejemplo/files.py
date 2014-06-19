@@ -1,13 +1,13 @@
 import os
 import glob   
 
-choices = "abcde"*500
+choices = "abcde"
 
 def create_file(name,size):
 	#os.system("dd if=/dev/zero of=../files/"+str(name)+".log bs="+str(size)+"KB count=1")
 	with open("../files/"+str(name), 'w') as f:
 		for i in range(size):
-			string = choices[i]*1024
+			string = choices[i%5]*1024
 			f.write(string)
 
 def create_files():
