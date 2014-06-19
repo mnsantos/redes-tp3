@@ -44,28 +44,29 @@ def get_lan_ip():
     return ip
 
 to_send = 'a'*10
-print sys.getsizeof(to_send)
+#print sys.getsizeof(to_send)
 
 if len(sys.argv) >= 2:
     protocol.ACK_delay = float(sys.argv[1])
 if len(sys.argv) >= 3:
     protocol.ACK_chance = float(sys.argv[2])
+#protocol.droppedPackets = 0
 
 with Socket() as sock1:
-    print get_lan_ip()
+    print "Server running on: " + get_lan_ip()
     sock1.bind((get_lan_ip(), 6677))
     sock1.listen()
     sock1.accept()
     
     while True:
         data = sock1.recv(10)
-        print "recibi algo: " + data
+        #print "recibi algo: " + data
         if data == tp_protocol.SEND:
-            print "mando ok: "
+            #print "mando ok: "
             sock1.send(tp_protocol.OK)
             numBytes = int(sock1.recv(10))
-            print "recibi numBytes: " + str(numBytes)
-            print "mando ok: "
+            #print "recibi numBytes: " + str(numBytes)
+            #print "mando ok: "
             sock1.send(tp_protocol.OK)
             BUFF_SIZE = constants.RECEIVE_BUFFER_SIZE
             fullBuffsCount = numBytes/BUFF_SIZE
@@ -74,7 +75,8 @@ with Socket() as sock1:
             for i in range(0, fullBuffsCount):
                 data += sock1.recv(BUFF_SIZE)
             if remainingBytes > 0:
-                data += sock1.recv(remainingBytes) 
+                data += sock1.recv(remainingBytes)
+            sock1.send(tp_protocol.END)
             file = open("../received/_"+str(numBytes), "w")
             file.write(data)
         if data == tp_protocol.EXIT:

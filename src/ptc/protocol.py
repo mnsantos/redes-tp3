@@ -134,7 +134,7 @@ class PTCProtocol(object):
                 else:
                     sendPacket()
             else:
-                print "drop packet"
+                global droppedPackets
                 droppedPackets += 1
         else:            
             self.socket.send(packet)        
