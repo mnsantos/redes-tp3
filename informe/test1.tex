@@ -23,4 +23,8 @@ Viendo los resultados obtenidos concluimos en que mientras más 'real' es el ent
 
 Otro punto a analizar es el $throughput$ en función del tamaño del archivo para cada entorno. Si bien hay diferencia en la velocidad de transmisión para cada archivo esta se mantiene bastante parecida entre todos ellos. El único $throughput$ que difiere bastante es el del archivo de 1KB. Sin embargo debemos tener en cuenta de que se trata de un archivo muy pequeño y cuyo tamaño es igual al del Receive Buffer Size. Por este motivo no debemos darle tanta importancia a ese valor.
 
+\subsection{Transferencia de 100 archivos de 1KB vs 1 archivo de 100KB}
 
+Nos pareció interesante comparar el $throughput$ para 100 archivos de 1KB con el de 1 archivo de 100KB. Los resultados fueron 0.29Kb/s en el caso de los 100 archivos de 1kb y 10,86Kb/s para el archivo de 100KB. Cabe aclarar que el experimento se desarrollo en el entorno 3.
+
+Es razonable haber obtenido una diferencia tan grande entre ambas transferencias ya que para enviar 100 archivos de 1KB el cliente debe interactuar con el server cada vez que desea enviar un nuevo archivo y especificarle el tamaño del mismo con el mini protocolo que implementamos. Esto no sucede en el otro caso ya que solo le especifica al server una vez de que tamaño va a ser el archivo a enviar.
