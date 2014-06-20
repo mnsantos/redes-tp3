@@ -2,7 +2,7 @@
 
 En esta sección vamos a analizar la velocidad de tranmisión de diversos archivos a través de una red local utilizando el protocolo PTC. Para ello montamos un server en determinada máquina, llamémosla A y, un cliente, B, en otra máquina de la misma red. Antes de poder comenzar el envío de datos es necesario que tanto A como B establezcan una conexión entre si. Esto se realiza a través de un algoritmo $three-way \ handshake$ implementando en PTC. Una vez establecida la conexión, B envía varios archivos de distintos tamaños y, por cada archivo, calcula el tiempo insumido en realizar dicha acción para luego calcular el $throughput$. En definitiva, lo que hacemos es setear un timer que arranca cuando se comienza a enviar un archivo desde B y se detiene cuando A le informa que llegó satisfactoriamente. Luego, dividimos el tamaño del archivo enviado (en Bytes) por el tiempo insumido (s) y lo multiplicamos por 1024 para obtener la velocidad en Kb/s.
 
-Analizaremos el $throughput$ percibido en función del tamaño de los archivos enviados testeándolo en diversos entornos. Tomaremos cuatro tipos de entorno posibles:
+Analizaremos el $throughput$ percibido en función del tamaño de los archivos enviados testeándolo en diversos entornos. Tomaremos tres tipos de entorno posibles:
 \begin{itemize}
 	\item[1] Entorno sin delay agregado en los ACK's y con probabilidad 0 de que se pierdan paquetes.
 	\item[2] Entorno con delay agregado que se va modificando dinámicamente entre 20ms y 80ms con probabilidad 0 de pérdida de paquetes.
