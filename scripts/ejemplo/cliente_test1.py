@@ -37,13 +37,13 @@ if len(sys.argv) >= 4:
 throughputs = []
 
 def change_delay():
-	protocol.ACK_delay = random.random() * 0.13 + 0.02	
+	protocol.ACK_delay = random.random() * 0.06 + 0.02	
 	global stopTimer
 	if not stopTimer:
 		timer = threading.Timer(0.01, change_delay)	
 		timer.start()
 timer = threading.Timer(0.01, change_delay)    
-#timer.start()
+timer.start()
 
 stopTimer = False
 
@@ -64,14 +64,14 @@ with Socket() as sock2:
                 if data == tp_protocol.END:
                     end = time.time()
                     h.throughput = (len(i)/(end-start))/1024
+                    print "mande archivo de "+str(h.size)+" KB"
                     throughputs.append(h)
     sock2.send(tp_protocol.EXIT)
     sock2.shutdown(SHUT_WR)
 stopTimer = True
 
-for i in throughputs:
-    i.mostrar()
-
 sizes=[h.size for h in throughputs]
+print "sizes: ",sizes
 ts=[h.throughput for h in throughputs]
-graficador.graficador(sizes,ts)
+print "ts: ",ts
+#graficador.graficador(sizes,ts)
